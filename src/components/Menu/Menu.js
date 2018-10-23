@@ -67,11 +67,11 @@ export default class Menu extends Component {
   render() {
     return (
       <StyledMenu>
-        <Link to='/login'><Img src={logo} alt='Kimaia logo' width='103' height='60' /></Link>
+        <Link to='/'><Img src={logo} alt='Kimaia logo' width='103' height='60' /></Link>
         <StyledList>
           <StyledItem><StyledNavLink to='/feed' index={0}><FontAwesomeIcon icon={['fal', 'newspaper']} /></StyledNavLink></StyledItem>
           <StyledItem><StyledNavLink to='/users' index={1}><FontAwesomeIcon icon={['fal', 'user-friends']} /></StyledNavLink></StyledItem>
-          <StyledItem><StyledLink href="https://github.com"><FontAwesomeIcon icon={['fab', 'github']} /></StyledLink></StyledItem>
+          <StyledItem><StyledLink href="https://github.com/Leerat/social_with_server"><FontAwesomeIcon icon={['fab', 'github']} /></StyledLink></StyledItem>
         </StyledList>
       </StyledMenu>
     )
