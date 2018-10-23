@@ -1,9 +1,8 @@
 const express = require("express")
-const sequelize = require('sequelize')
 const Op = require('sequelize').Op
 const router = express.Router()
 
-const model = require("../models/index")
+const seq = require("../models/index")
 const withAsync = require("../utils/utils").withAsync
 
 router.get(
@@ -26,18 +25,21 @@ router.get(
   withAsync(async (req, res, next) => {
     const id = req.params.id
 
-    const friends = await model.User.findAll({
+    const friends = await seq.User.findAll({
       raw: true,
       where: {
-        requestFromYou: {
-          [Op.contains]: [id]
+        [Op.or]: {
+          requestFromYou: {
+            [Op.contains]: [id]
+          },
+          id: id
         }
       },
       attributes: ['id','postsCreated', 'firstname', 'lastname']
     })
-    const flat = friends.reduce( (acc, item) => acc.concat(item.postsCreated), [])
+    const flat = friends.reduce( (acc, item) => acc.concat(item.postsCreated), [id])
 
-    const posts = await model.Post.findAll({
+    const posts = await seq.Post.findAll({
       raw: true,
       where: {
         id: flat
@@ -67,23 +69,29 @@ router.post(
   withAsync(async (req, res, next) => {
     const { text, author } = req.body
 
-    const post = await model.Post.create({
+    const post = await seq.Post.create({
       author: author,
       text: text
+    }, {
+      returning: true,
+      raw: true,
     })
 
-    const user = await model.User.update({
-      postsCreated: sequelize.fn('array_append', sequelize.col('postsCreated'), post.id)
-    }, {
-      where: {
-        id: author
+    const user = await seq.User.update(
+      { postsCreated: seq.sequelize.fn('array_append', seq.sequelize.col('postsCreated'), post.get().id) },
+      {
+        raw: true,
+        returning: true,
+        where: {
+          id: author
+        }
       }
-    })
-    console.log('---', user)
+    )
+    const data = Object.assign(post.get(), {authorName: {firstname: user[1][0].firstname, lastname: user[1][0].lastname}})
 
     return res.status(201).json({
       error: false,
-      data: post,
+      data: data,
       message: "New post has been created."
     })
   })

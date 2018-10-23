@@ -13,6 +13,18 @@ class FeedStore {
 
     this.feed = json.data
   }
+
+  @action
+  postPost = async (ownerId, text) => {
+    const body = {
+      author: ownerId,
+      text: text
+    }
+    const resp = await fetcher.post(`/api/posts/`, body)
+    const json = await resp.json()
+
+    this.feed.unshift(json.data)
+  }
 }
 
 export let feedStore = new FeedStore()
