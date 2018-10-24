@@ -38,11 +38,7 @@ const StyledNumber = styled(Typography)`
 `
 
 const Friends = styled.span`
-  // position: absolute;
-  // right: ${theme.interval};
-  // top: ${theme.interval};
   color: ${theme.green};
-  
 `
 
 const FollowButtons = styled.div`

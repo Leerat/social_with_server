@@ -4,6 +4,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
+// SHOULD BE DEV BUT DONT WORK (=
 // const webpack = require('webpack')
 // const wpDevMiddleware = require('webpack-dev-middleware');
 // const wpConfig = require('./webpack.config')
@@ -32,15 +33,14 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// app.use('/', index);
 app.use('/api/auth', auth);
 app.use('/api/users', checkAuth, users);
 app.use('/api/posts', checkAuth, posts);
 
-//PROD
+// PROD
 app.use('*', express.static(path.join(__dirname, 'dist'))); //fallback to index for react-router
 
-//SHOULD BE DEV BUT DONT WORK (=
+// SHOULD BE DEV BUT DONT WORK (=
 // app.use(wpDevMiddleware(compiler), {
 //   contentBase: [path.resolve(root, 'dist'), path.resolve(root, 'static')],
 //   publicPath: '/',
