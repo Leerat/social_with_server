@@ -5,9 +5,9 @@ import { Provider as ReduxProvider } from 'react-redux'
 import 'externals/normalize.min.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
 
-import { faNewspaper, faUserFriends, faEye } from '@fortawesome/pro-light-svg-icons'
+import { faNewspaper, faUser, faEye } from '@fortawesome/free-regular-svg-icons'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
-library.add(faNewspaper, faUserFriends, faGithub, faEye)
+library.add(faNewspaper, faUser, faGithub, faEye)
 
 import App from 'App'
 import storeMobx from 'storeMobx'
